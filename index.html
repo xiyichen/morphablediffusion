@@ -1,1 +1,369 @@
-Coming soon!
+<!DOCTYPE html>
+<html><head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    
+    
+    <link rel="icon" type="image/png" href="./files/preview_icon.jpg"> 
+    <title>Morphable Diffusion: 3D-Consistent Diffusion for Single-image Avatar Creation</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <meta property="og:image" content="./files/figure1.png">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="512">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sergeyprokudin.github.io/dpf/">
+    <meta property="og:title" content="Dynamic Point Fields">
+    <meta property="og:description" content="Towards Efficient and Scalable Dynamic Surface Representations">
+
+        <!--TWITTER-->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dynamic Point Fields">
+    <meta name="twitter:description" content="Project page for Dynamic Point Fields.">
+    <meta name="twitter:image" content="https://github.com/sergeyprokudin/sergeyprokudin.github.io/blob/c0c415cffdfc00a7bfa7dccf7d7ae7f5d76ef454/dpf/files/figure1.png">
+
+
+    <link rel="icon" type="image/png" href="./files/favicon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="./files/bootstrap.min.css">
+    <link rel="stylesheet" href="./files/font-awesome.min.css">
+    <link rel="stylesheet" href="./files/codemirror.min.css">
+    <link rel="stylesheet" href="./files/app.css">
+
+    <link rel="stylesheet" href="./files/bootstrap.min(1).css">
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script type="text/javascript" async="" src="./files/analytics.js"></script><script async="" src="./files/js"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-110862391-1');
+    </script>
+
+    <script src="./files/jquery.min.js"></script>
+    <script src="./files/bootstrap.min.js"></script>
+    <script src="./files/codemirror.min.js"></script>
+    <script src="./files/clipboard.min.js"></script>
+    
+    <script src="./files/app.js"></script>
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1101.0" data-gr-ext-installed="">
+    <div class="container" id="main">
+        <div class="row">
+            <h2 class="col-md-12 text-center">
+                <b>Morphable Diffusion</b>  <br> 
+                <!-- Towards Efficient and Scalable Dynamic Surface Representations<br> -->
+                <small> 3D-Consistent Diffusion for Single-image Avatar Creation <br>  arXiv 2023
+                </small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    <li>
+                        <a href="https://xiyichen.github.io">
+                          Xiyi Chen
+                        </a><sup>1</sup>
+<!--                        <br>ETH Zürich-->
+                    </li>
+                    <li>
+                        <a href="https://markomih.github.io">
+                          Marko Mihajlovic
+                        </a><sup>1</sup>
+<!--                        <br>ETH Zürich-->
+                    </li>
+                    <li>
+                        <a href="https://taconite.github.io">
+                          Shaofei Wang
+                        </a><sup>1</sup>
+<!--                        <br>ETH Zürich-->
+                    </li>
+                    <li>
+                        <a href="https://vlg.inf.ethz.ch/team/Dr-Sergey-Prokudin.html">
+                          Sergey Prokudin
+                        </a><sup>1</sup>
+<!--                        <br>ETH Zürich-->
+                    </li>
+                    <li>
+                        <a href="https://vlg.inf.ethz.ch/team/Prof-Dr-Siyu-Tang.html">
+                          Siyu Tang
+                        </a><sup>1</sup>
+<!--                        <br>ETH Zürich-->
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 text-center">
+            <span class="author-block"><sup>1</sup>ETH Zürich <br></span>&nbsp;&nbsp;
+            <!-- <span class="author-block"><sup>2</sup>Max Planck Institute for Intelligent Systems, Tübingen <br></span>&nbsp;&nbsp;
+            <span class="author-block"><sup>3</sup>Microsoft</span> -->
+          </div>
+        </div>
+
+
+        <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a href="https://arxiv.org/abs/2304.02626">
+                            <img src="./files/paper.jpg" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/watch?v=i-9eAgS8HEA">
+                            <img src="./files/youtube_icon.png" height="60px">
+                                <h4><strong>Video</strong><br></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/xiyichen/morphablediffusion">
+                            <img src="./files/github.png" height="60px">
+                                <h4><strong>Code (coming soon!)</strong><br></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+            <img src="./files/teaser.png" class="img-responsive" alt="overview">
+            <p class="text-justify">
+                    <b>TL;DR:</b> We introduce a morphable diffusion model to enable consistent controllable novel view synthesis of humans from a single image. 
+        Given a single input image (a) and a morphable mesh with a desired facial expression (b) our method directly generates 3D consistent and photo-realistic images from novel viewpoints (c) and a coarse 3D model (d). The overall pipeline of our method:
+                </p>
+<!--            <img src="./files/teaser.gif" class="img-responsive" alt="overview"><br>-->
+            <!-- <div class="video-container">
+                <video width="auto" height="100" playsinline loop autoplay muted>
+                  <source src="./files/teaser.mp4" type="video/mp4">
+                    <style>
+                        video {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover; // use "cover" to avoid distortion
+                            position: absolute;
+                        }
+                    </style>
+            </video>
+                </div> -->
+            <img src="./files/architecture.jpg" class="img-responsive" alt="overview">
+            </div>
+            
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Overview video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/i-9eAgS8HEA" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    The model
+                </h3>
+                
+                <p class="text-justify">
+                    Our model consists of an optimisable canonical point set (left) and a compact neural network that maps every point and its associated feature in a canonical cloud to a new location.
+                </p>
+            </div>
+        </div>
+-->
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Novel View Synthesis of Face
+                </h3>
+                <p class="text-justify">
+                    We test our method for single-view reconstruction of human faces on the <a href="https://facescape.nju.edu.cn/">FaceScape</a> dataset and compare our method with <a href="https://nvlabs.github.io/eg3d/">EG3D</a>, <a href="https://alexyu.net/pixelnerf/">pixelNeRF</a>, <a href="https://lakonik.github.io/ssdnerf/">SSDNeRF</a>, and <a href="https://liuyuan-pal.github.io/SyncDreamer/">SyncDreamer</a>. For EG3D, we use <a href="https://github.com/oneThousand1000/EG3D-projector">a custom GAN inversion repository</a> to search for the latent code that produces that resemblance. Our method produces best scores on the perceptual metrics while preserving accurate facial expressions and reasonable resemblance, which we attribute to the effective conditioning on the morphable model.
+                </p>
+                <video width="auto" height="100" playsinline loop autoplay muted>
+                  <source src="./files/nvs_1.mp4" type="video/mp4">
+                    <style>
+                        video {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover; // use "cover" to avoid distortion
+                            position: absolute;
+                        }
+                    </style>
+                </video>
+                <video width="auto" height="100" playsinline loop autoplay muted>
+                  <source src="./files/nvs_2.mp4" type="video/mp4">
+                    <style>
+                        video {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover; // use "cover" to avoid distortion
+                            position: absolute;
+                        }
+                    </style>
+                </video>
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Novel View Synthesis of Full-bodies
+                </h3>
+                <p class="text-justify">
+                We also test our method for single-view reconstruction of human full-body images on the <a href="https://github.com/ytrock/THuman2.0-Dataset">Thuman2.0</a> dataset and compare our method with <a href="https://alexyu.net/pixelnerf/">pixelNeRF</a>, <a href="https://zero123.cs.columbia.edu/">zero-1-to-3</a>, and <a href="ttps://liuyuan-pal.github.io/SyncDreamer/">SyncDreamer</a>. Given a single full-body image in any pose, our method produces novel views of the person with the most accurate accurate pose.
+                </p>
+                <img src="./files/nvs_full_body.jpg" class="img-responsive" alt="overview">
+                
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Novel Facial Expression Synthesis
+                </h3>
+                <p class="text-justify">
+                    We test our method for novel facial expression synthesis from single image and compare our method with <a href="https://yiyuzhuang.github.io/mofanerf/">MoFaNeRF</a>. Our method produces better resemblance.
+                </p>
+                <video width="auto" height="100" playsinline loop autoplay muted>
+                  <source src="./files/nes_1.mp4" type="video/mp4">
+                    <style>
+                        video {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover; // use "cover" to avoid distortion
+                            position: absolute;
+                        }
+                    </style>
+                </video>
+                <video width="auto" height="100" playsinline loop autoplay muted>
+                  <source src="./files/nes_2.mp4" type="video/mp4">
+                    <style>
+                        video {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover; // use "cover" to avoid distortion
+                            position: absolute;
+                        }
+                    </style>
+                </video>
+                <p class="text-justify">
+                    We test finetune our method on 16 views of the test subject in neutral expression and compare the finetuned model with <a href="https://diffusionrig.github.io/">DiffusionRig</a>. Our finetuned model improves the resemblance slightly compared to the results with single input image, and produces images with better fidelity compared to the baseline.
+                </p>
+                <video width="auto" height="100" playsinline loop autoplay muted>
+                  <source src="./files/nes_1_finetuned.mp4" type="video/mp4">
+                    <style>
+                        video {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover; // use "cover" to avoid distortion
+                            position: absolute;
+                        }
+                    </style>
+                </video>
+                <video width="auto" height="100" playsinline loop autoplay muted>
+                  <source src="./files/nes_2_finetuned.mp4" type="video/mp4">
+                    <style>
+                        video {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover; // use "cover" to avoid distortion
+                            position: absolute;
+                        }
+                    </style>
+                </video>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Full-body animation
+                </h3>
+                <p class="text-justify">
+                    We also show that our method could be applied to animate a full-body image using SMPL meshes as driving signals.
+                </p>
+                <video width="auto" height="100" playsinline loop autoplay muted>
+                  <source src="./files/full_body_animation.mp4" type="video/mp4">
+                    <style>
+                        video {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover; // use "cover" to avoid distortion
+                            position: absolute;
+                        }
+                    </style>
+                </video>
+                
+            </div>
+        </div>
+
+        
+        
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Related links
+                </h3>
+                <p class="text-justify">
+                    Point-based surface representations were recently revisited in several works: <a href="https://pengsongyou.github.io/sap">Peng et al. (2021)</a>, <a href="https://igl.ethz.ch/projects/differentiable-surface-splatting/">Yifan et al. (2019)</a>. Please see the supplementary for the discussion and comparison of our point optimisation scheme with these methods.
+                </p>
+                <p class="text-justify">
+                    We model point deformations witht the <i>sinusoidal representation networks</i> introduced in <a href="https://www.vincentsitzmann.com/siren/">Sitzmann et al. (2020)</a>. Alternative architectures for deformation modeling were introduced in the context of non-rigid point cloud registration in <a href="https://arxiv.org/pdf/2205.12796.pdf">Li et al. (2022)</a>, surface modeling in <a href="https://pablopalafox.github.io/npms/">Palafox et al. (2022)</a>, and volumetric neural rendering in <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">Pumarola et al. (2020)</a>, <a href="https://nerfies.github.io/">Park et al. (2021)</a>. Please see Section 4.2 of the manuscript for the discussion and comparison of the related techniques. 
+                </p>
+            </div>
+        </div> -->
+        
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10 col-md-offset-1">
+                <textarea id="bibtex" class="form-control" readonly>
+                @article{prokudin2023dynamic,
+                  title={Dynamic Point Fields},
+                  author={Prokudin, Sergey and Ma, Qianli and Raafat, Maxime and Valentin, Julien and Tang, Siyu},
+                  journal={arXiv preprint arXiv:2304.02626},
+                  year={2023}
+                }</textarea>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Acknowledgements
+                </h3>
+                <p class="text-justify">
+                We thank Korrawe Karunratanakul for discussion about per-subject finetuning of diffusion models, Timo Bolkart for his advice on fitting FLAME models, and Malte Prinzler for his help with the color-calibrated FaceScape data. Marko Mihajlovic and Sergey Prokudin are supported by the Innosuisse Flagship project PROFICIENCY No. PFFS-21-19. Shaofei Wang acknowledges the SNF grant 200021 204840.
+                <br>
+                The website template was borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                </p>
+            </div>
+        </div>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
