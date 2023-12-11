@@ -140,10 +140,21 @@
         
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-            <img src="./files/teaser.png" class="img-responsive" alt="overview">
+            <!-- <img src="./files/teaser.png" class="img-responsive" alt="overview"> -->
+            <video width="auto" height="100" playsinline loop autoplay muted>
+              <source src="./files/teaser.mp4" type="video/mp4">
+                <style>
+                    video {
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover; // use "cover" to avoid distortion
+                        position: absolute;
+                    }
+                </style>
+            </video>
             <p class="text-justify">
                     <b>TL;DR:</b> We introduce a morphable diffusion model to enable consistent controllable novel view synthesis of humans from a single image. 
-        Given a single input image (a) and a morphable mesh with a desired facial expression (b) our method directly generates 3D consistent and photo-realistic images from novel viewpoints (c) and a coarse 3D model (d). The overall pipeline of our method:
+        Given a single input image and a morphable mesh with a desired facial expression, our method directly generates 3D consistent and photo-realistic images from novel viewpoints, which we could use to reconstruct a coarse 3D model using off-the-shelf neural surface reconstruction methods such as <a href="https://vcai.mpi-inf.mpg.de/projects/NeuS2/">NeuS2</a>. The overall pipeline of our method:
                 </p>
 <!--            <img src="./files/teaser.gif" class="img-responsive" alt="overview"><br>-->
             <!-- <div class="video-container">
