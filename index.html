@@ -5,7 +5,7 @@
     
     
     <link rel="icon" type="image/png" href="./files/preview_icon.jpg"> 
-    <title>Morphable Diffusion: 3D-Consistent Diffusion for Single-image Avatar Creation</title>
+    <title>Dynamic Point Fields: Towards Efficient and Scalable Dynamic Surface Representations</title>
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,16 +49,7 @@
         gtag('config', 'G-1S6DD7H8WE');
     </script>
 
-    
-    <!-- <script type="text/javascript"
-      src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-    </script> -->
-    <!-- <script type="text/javascript"
-      src="./files/mathjax.js">
-    </script> -->
+
     <script>
     MathJax = {
       tex: {
@@ -164,60 +155,35 @@
         
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-            <!-- <img src="./files/teaser.png" class="img-responsive" alt="overview"> -->
-            <video width="auto" height="100" playsinline loop autoplay muted>
-              <source src="./files/teaser_2.mp4" type="video/mp4">
-                <style>
-                    video {
-                        height: 100%;
-                        width: 100%;
-                        object-fit: cover; // use "cover" to avoid distortion
-                        position: absolute;
-                    }
-                </style>
-            </video>
+            <div class="video-container">
+                <video width="auto" height="100" playsinline loop autoplay muted>
+                  <source src="./files/teaser.mp4" type="video/mp4">
+                    <style>
+                        video {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover; // use "cover" to avoid distortion
+                            position: absolute;
+                        }
+                    </style>
+                </video>
+            </div>
             <p class="text-justify">
-                    <b>TL;DR:</b> We introduce a morphable diffusion model to enable consistent controllable novel view synthesis of humans from a single image. 
+                <b>TL;DR:</b> We introduce a morphable diffusion model to enable consistent controllable novel view synthesis of humans from a single image. 
         Given a single input image and a morphable mesh with a desired facial expression, our method directly generates 3D consistent and photo-realistic images from novel viewpoints, which we could use to reconstruct a coarse 3D model using off-the-shelf neural surface reconstruction methods such as <a href="https://vcai.mpi-inf.mpg.de/projects/NeuS2/">NeuS2</a>.
             </p>
+            </div>
+            
         </div>
-
-
+        
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
                     Overview video
                 </h3>
-                <!-- <div class="text-center">
-                    <div style="position:relative;padding-top:56.25%;">
-                        <iframe src="https://www.youtube.com/embed/i-9eAgS8HEA" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-                    </div>
-                </div> -->
                 Coming Soon!
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h3>
-                    Pipeline
-                </h3>
-            <img src="./files/architecture.jpg" class="img-responsive" alt="overview">
-            <br>
-            <b>Our pipeline consists of 4 parts:</b>
-            <br>
-
-            <b>A)</b> a noise feature volume  by lifting and processing the 2D noise features into a 3D volume $\mathbf{G}$ which is processed by a 3D CNN $\eta_\theta$ to produce a feature grid $\mathbf{F}_G$. 
-            <br>
-            <b>B)</b> a morphable noise volume by attaching the 2D noise features onto mesh vertices that are processed by a SparseConvNet $f_\theta$ to output a 3DMM-aware feature volume $\mathbf{F}_V$. 
-            <br>
-            <b>C)</b> the feature grids $\mathbf{F}_G$ and $\mathbf{F}_V$ are blended via addition. The blended noise volume is further interpolated to the frustum $\mathbf{F}^{(i)}$ of a target view $(i)$ that we wish to synthesize. 
-            <br>
-            <b>D)</b> the noisy target image $\mathbf{x}_t^{(i)}$, the input image $\mathbf{y}$, and the target feature frustum are processed by a pre-trained 2D UNet akin to <a href="https://liuyuan-pal.github.io/SyncDreamer/">SyncDreamer</a> to predict the denoised image at the next iteration $\mathbf{x}_{t-1}^{(i)}$.
-            </div>
-            
-        </div>
-        
 <!--
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -231,6 +197,30 @@
             </div>
         </div>
 -->
+    
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Pipeline
+                </h3>
+            <img src="./files/architecture.jpg" class="img-responsive" alt="overview">
+            <br>
+            <p class="text-justify">
+                <b>Our pipeline consists of 4 parts:</b>
+                <br>
+
+                <b>A)</b> a noise feature volume  by lifting and processing the 2D noise features into a 3D volume $\mathbf{G}$ which is processed by a 3D CNN $\eta_\theta$ to produce a feature grid $\mathbf{F}_G$. 
+                <br>
+                <b>B)</b> a morphable noise volume by attaching the 2D noise features onto mesh vertices that are processed by a SparseConvNet $f_\theta$ to output a 3DMM-aware feature volume $\mathbf{F}_V$. 
+                <br>
+                <b>C)</b> the feature grids $\mathbf{F}_G$ and $\mathbf{F}_V$ are blended via addition. The blended noise volume is further interpolated to the frustum $\mathbf{F}^{(i)}$ of a target view $(i)$ that we wish to synthesize. 
+                <br>
+                <b>D)</b> the noisy target image $\mathbf{x}_t^{(i)}$, the input image $\mathbf{y}$, and the target feature frustum are processed by a pre-trained 2D UNet akin to <a href="https://liuyuan-pal.github.io/SyncDreamer/">SyncDreamer</a> to predict the denoised image at the next iteration $\mathbf{x}_{t-1}^{(i)}$.
+            </p>
+            </div>
+            
+        </div>
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -361,30 +351,14 @@
                 
             </div>
         </div>
-
         
         
-        <!-- <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h3>
-                    Related links
-                </h3>
-                <p class="text-justify">
-                    Point-based surface representations were recently revisited in several works: <a href="https://pengsongyou.github.io/sap">Peng et al. (2021)</a>, <a href="https://igl.ethz.ch/projects/differentiable-surface-splatting/">Yifan et al. (2019)</a>. Please see the supplementary for the discussion and comparison of our point optimisation scheme with these methods.
-                </p>
-                <p class="text-justify">
-                    We model point deformations witht the <i>sinusoidal representation networks</i> introduced in <a href="https://www.vincentsitzmann.com/siren/">Sitzmann et al. (2020)</a>. Alternative architectures for deformation modeling were introduced in the context of non-rigid point cloud registration in <a href="https://arxiv.org/pdf/2205.12796.pdf">Li et al. (2022)</a>, surface modeling in <a href="https://pablopalafox.github.io/npms/">Palafox et al. (2022)</a>, and volumetric neural rendering in <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">Pumarola et al. (2020)</a>, <a href="https://nerfies.github.io/">Park et al. (2021)</a>. Please see Section 4.2 of the manuscript for the discussion and comparison of the related techniques. 
-                </p>
-            </div>
-        </div> -->
-        
-        
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
                     Citation
                 </h3>
-                <div class="form-group col-md-10 col-md-offset-1">
+                <!-- <div class="form-group col-md-10 col-md-offset-1">
                 <textarea id="bibtex" class="form-control" readonly>
                 @article{prokudin2023dynamic,
                   title={Dynamic Point Fields},
@@ -392,11 +366,10 @@
                   journal={arXiv preprint arXiv:2304.02626},
                   year={2023}
                 }</textarea>
-                </div>
+                </div> -->
+                Coming Soon!
             </div>
-        </div> -->
-
-
+        </div>
         
         
         <div class="row">
@@ -409,22 +382,6 @@
                 <br>
                 The website template was borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a>.
                 </p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-              <h3>Citation</h3>
-              <!-- <pre><code>@article{park2023camp,
-          author    = {Park, Keunhong; Henzler, Philipp; Mildenhall, Ben; Barron, Jonathan T.; Martin-Brualla, Ricardo},
-          title     = {CamP: Camera Preconditioning for Neural Radiance Fields},
-          journal = {ACM Trans. Graph.},
-          publisher = {ACM},
-          year      = {2023},
-          issue_date = {December 2023},
-        }</code></pre> -->
-        Coming soon!
-        <br>
             </div>
         </div>
 
