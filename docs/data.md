@@ -68,7 +68,7 @@ sbatch process_all_mpi.sh
 
 For single machine:
 ```bash
-sbatch process_all.sh
+bash process_all.sh
 ```
 
 ### Preprocess THuman data
