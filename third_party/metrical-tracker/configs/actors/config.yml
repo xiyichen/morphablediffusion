@@ -1,0 +1,10 @@
+# Tracker config
+
+actor: './input/input'
+save_folder: './output/'
+optimize_shape: true
+optimize_jaw: true
+input_shape_path: ../MICA/demo/output/input/identity.npy
+target_exp_shape_path: ../MICA/demo/output/exp/identity.npy
+begin_frames: 0
+keyframes: [ 0 ]

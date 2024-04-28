@@ -1,0 +1,67 @@
+model:
+  base_learning_rate: 5e-5
+  target: ldm.models.diffusion.morphable_diffusion.SyncMultiviewDiffusion
+  params:
+    view_num: 16
+    image_size: 256
+    cfg_scale: 2.0
+    output_num: 8
+    batch_view_num: 4
+    finetune_unet: True
+    drop_conditions: false
+    projection: 'perspective'
+    use_spatial_volume: False
+    clip_image_encoder_path: ./ckpt/ViT-L-14.pt
+    target_elevation: 0
+
+    scheduler_config: # 10000 warmup steps
+      target: ldm.lr_scheduler.LambdaLinearScheduler
+      params:
+        warm_up_steps: [ 100 ]
+        cycle_lengths: [ 100000 ]
+        f_start: [ 0.02 ]
+        f_max: [ 1.0 ]
+        f_min: [ 1.0 ]
+
+    unet_config:
+      target: ldm.models.diffusion.attention.DepthWiseAttention
+      params:
+        volume_dims: [64, 128, 256, 512]
+        image_size: 32
+        in_channels: 8
+        out_channels: 4
+        model_channels: 320
+        attention_resolutions: [ 4, 2, 1 ]
+        num_res_blocks: 2
+        channel_mult: [ 1, 2, 4, 4 ]
+        num_heads: 8
+        use_spatial_transformer: True
+        transformer_depth: 1
+        context_dim: 768
+        use_checkpoint: True
+        legacy: False
+
+data:
+  target: ldm.data.facescape.FaceScapeDataset
+  params:
+    data_dir: /cluster/scratch/xiychen/data/facescape_color_calibrated
+    mesh_topology: 'flame'
+    shuffled_expression: True
+    batch_size: 70 # batch size for a single gpu
+    num_workers: 1
+
+lightning:
+  modelcheckpoint:
+    params:
+      every_n_train_steps: 2000
+  callbacks:
+    {}
+
+  trainer:
+    benchmark: True
+    max_steps: 6000
+    val_check_interval: 250 # we will run validation every 1k steps, the validation will output images to <log_dir>/<images>/val
+    num_sanity_val_steps: 0
+    precision: 32
+    check_val_every_n_epoch: null
+    accumulate_grad_batches: 1
