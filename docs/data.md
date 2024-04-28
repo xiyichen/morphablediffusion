@@ -16,7 +16,7 @@ cd ckpt
 gdown 1Wi5GmNEDLmLYvO-jCHzT2OtCAercHOic # Pretrained SyncDreamer model
 gdown 1xJUoTcbC5m4Xj41Nrr816JNNqRgqVVVz # fitted FLAME vertices for FaceScape
 cd ../assets/
-gdown 1xJUoTcbC5m4Xj41Nrr816JNNqRgqVVVz # cleaned up SMPL-X vertices for THuman 2.1
+gdown 16FdCGEvC-t8EoMZFbhk6HGllhTEVlpiZ # cleaned up SMPL-X vertices for THuman 2.1
 unzip thuman_smplx.zip
 rm thuman_smplx.zip
 cd ..

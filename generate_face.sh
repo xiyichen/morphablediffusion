@@ -1,4 +1,4 @@
-export INPUT_IMG=./demo/input/stylegan4.png
+export INPUT_IMG=./demo/input/stylegan3.png
 export TARGET_EXPRESSION_IMG=./demo/exp/smile.png
 
 rm -r ./third_party/MICA/demo/
