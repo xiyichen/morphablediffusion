@@ -8,8 +8,8 @@ Morphable Diffusion: 3D-Consistent Diffusion for Single-image Avatar Creation
 ## [Project page](https://xiyichen.github.io/morphablediffusion) | [Paper](https://arxiv.org/abs/2401.04728)
 
 ### TODOs:
-- [x] Release pretrained model and inference script for the face model
-- [x] Release pretrained face model with bilinear meshes and evaluation code
+- [x] Release pretrained face model with FLAME topology and inference script
+- [x] Release face model trained with bilinear topology and evaluation code
 - [ ] Release pretrained model, inference script, and evaluation code for the full body model
 - [ ] Retrain face model with flame meshes obtained from more accurate FLAME-tracking.
 

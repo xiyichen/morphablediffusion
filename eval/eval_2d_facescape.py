@@ -91,7 +91,7 @@ def main():
                 row_id = idx//16
                 column_id = idx-16*(idx//16)
                 generated_img = generated_batch[row_id*256:(row_id+1)*256,column_id*256:(column_id+1)*256]
-                gt_img, gt_img_mask = read_transparent_png(os.path.join(flags.data_dir, f'{str(subject_id).zfill(3)}/{str(exp_id).zfill(2)}/view_{str(target_view).zfill(5)}/rgba_colorcalib_v2.png'))
+                gt_img, gt_img_mask = read_transparent_png(os.path.join(flags.data_dir, f'{str(subject_id).zfill(3)}/{str(exp_id).zfill(2)}/view_{str(target_view).zfill(5)}/rgba_colorcalib.png'))
                 generated_img[gt_img_mask[:,:,0]==255] = 255
                 
                 dets = detector(gt_img, 1)
