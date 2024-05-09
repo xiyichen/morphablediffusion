@@ -1,0 +1,4 @@
+[submodule "third_party/mmpose"]
+	path = third_party/mmpose
+	url = https://github.com/open-mmlab/mmpose.git
+	branch = dev-1.x
