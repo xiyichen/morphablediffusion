@@ -13,7 +13,7 @@ mim install mmpose==1.3.1
 pip install dlib==19.21.0
 ```
 
-#### 2. Download checkpoints for trained with bilinear topology and dlib models (for re-id evaluation):
+#### 2. Download checkpoints trained with bilinear topology and dlib models (for re-id evaluation):
 ```bash
 cd ckpt
 gdown 1Zey3u9B-NQU5ltEsyCDJShdwz9RInfE8 # Novel facial expression synthesis model
