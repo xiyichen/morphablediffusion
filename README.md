@@ -9,13 +9,14 @@ Morphable Diffusion: 3D-Consistent Diffusion for Single-image Avatar Creation
 
 ### TODOs:
 - [x] Release pretrained model and inference script for the face model
-- [ ] Release pretrained model and inference script for the full body model
-- [ ] Release pretrained face model with bilinear meshes and evaluation code
+- [x] Release pretrained face model with bilinear meshes and evaluation code
+- [ ] Release pretrained model, inference script, and evaluation code for the full body model
 - [ ] Retrain face model with flame meshes obtained from more accurate FLAME-tracking.
 
 ### Instructions
 - See [installation](docs/installation.md) to install all the required packages
 - See [data preparation](docs/data.md) to set up the download pretrained models, assets and datasets
+- See [evaluation](docs/eval.md) to reproduce the qualitative and quantitative results in our paper
 
 ### Inference
 To run Morphable Diffusion for novel facial expression synthesis, replace `$INPUT_IMG` and `$TARGET_EXPRESSION_IMG` with paths to the input image and target facial expression image and run:
@@ -24,6 +25,7 @@ bash generate_face.sh
 ```
 
 ### Training
+We train our models using 2 80GB NVIDIA A100 GPUs with a total batch size of 140.
 #### Train the face model:
 ```bash
 bash train_face.sh
@@ -59,6 +61,7 @@ During training, we will run validation to output images to `<log_dir>/<images>/
 We have intensively borrow codes from the following repositories. Many thanks to the authors for sharing their codes.
 
 - [SyncDreamer](https://github.com/liuyuan-pal/SyncDreamer)
+- [neuralbody](https://github.com/zju3dv/neuralbody)
 - [DINER](https://github.com/malteprinzler/diner)
 - [MICA](https://github.com/Zielon/MICA)
 - [metrical-tracker](https://github.com/Zielon/metrical-tracker.git)

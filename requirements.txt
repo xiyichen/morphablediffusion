@@ -24,3 +24,5 @@ chumpy
 onnxruntime==1.13.1
 insightface==0.7
 gdown
+torchmetrics[image]
+lpips
