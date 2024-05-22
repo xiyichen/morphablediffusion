@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-export INPUT_IMG=./demo/face/input/stylegan1.png
-export TARGET_EXPRESSION_IMG=./demo/face/exp/kiss.png
+export INPUT_IMG=./demo/face/input/stylegan2.png
+export TARGET_EXPRESSION_IMG=./demo/face/exp/kiss.jpg
 
 rm -rf ./third_party/MICA/demo/
 rm -rf ./third_party/metrical-tracker/input

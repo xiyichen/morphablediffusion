@@ -169,3 +169,4 @@ eval/*/
 third_party/MICA/demo/
 third_party/metrical-tracker/input
 third_party/metrical-tracker/output
+third_party/metrical-tracker/debug.png

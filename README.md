@@ -61,7 +61,7 @@ During training, we will run validation to output images to `<log_dir>/<images>/
 
 ## Acknowledgement
 
-We have intensively borrow codes from the following repositories. Many thanks to the authors for sharing their codes.
+We have extensively borrowed code from the following repositories. Many thanks to the authors for sharing their work.
 
 - [SyncDreamer](https://github.com/liuyuan-pal/SyncDreamer)
 - [neuralbody](https://github.com/zju3dv/neuralbody)
