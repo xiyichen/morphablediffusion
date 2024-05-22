@@ -56,7 +56,7 @@ cfg.w_lmks = 7000
 cfg.w_lmks_68 = 1000
 cfg.w_lmks_lid = 1000
 cfg.w_lmks_mouth = 15000
-cfg.w_lmks_iris = 1000
+cfg.w_lmks_iris = 2000
 cfg.w_lmks_oval = 2000
 
 cfg.w_exp = 0.02

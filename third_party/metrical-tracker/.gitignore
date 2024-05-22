@@ -148,3 +148,4 @@ dmypy.json
 !input/duda/video.mp4
 !input/justin/identity.npy
 !input/justin/video.mp4
+./debug.png

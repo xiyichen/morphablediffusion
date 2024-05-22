@@ -511,9 +511,9 @@ class Tracker(object):
                 losses['reg/exp'] = torch.sum(exp ** 2) * self.config.w_exp
                 losses['reg/sym'] = torch.sum((right_eye - left_eye) ** 2) * 8.0
                 losses['reg/jaw'] = torch.sum((I6D - jaw) ** 2) * self.config.w_jaw
-                losses['reg/eye_lids'] = torch.sum((eyelids[:, 0] - eyelids[:, 1]) ** 2)
-                losses['reg/eye_left'] = torch.sum((I6D - left_eye) ** 2)
-                losses['reg/eye_right'] = torch.sum((I6D - right_eye) ** 2)
+                losses['reg/eye_lids'] = torch.sum((eyelids[:, 0] - eyelids[:, 1]) ** 2) * 0
+                losses['reg/eye_left'] = torch.sum((I6D - left_eye) ** 2) * 0
+                losses['reg/eye_right'] = torch.sum((I6D - right_eye) ** 2) * 0
                 losses['reg/shape'] = torch.sum((shape - self.mica_shape) ** 2) * self.config.w_shape
                 losses['reg/tex'] = torch.sum(tex ** 2) * self.config.w_tex
                 losses['reg/pp'] = torch.sum(pp ** 2)

@@ -161,4 +161,11 @@ assets/FLAME2020/*.pdf
 assets/FLAME2020/*.npz
 assets/MICA/
 assets/MICA/*
+assets/dlib/
+assets/thuman_smplx/
 assets/facescape_flame_vertices/
+eval/facescape_input_target_views.json
+eval/*/
+third_party/MICA/demo/
+third_party/metrical-tracker/input
+third_party/metrical-tracker/output

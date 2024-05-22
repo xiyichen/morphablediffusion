@@ -8,10 +8,12 @@ Morphable Diffusion: 3D-Consistent Diffusion for Single-image Avatar Creation
 ## [Project page](https://xiyichen.github.io/morphablediffusion) | [Paper](https://arxiv.org/abs/2401.04728)
 
 ### TODOs:
-- [x] Release pretrained face model with FLAME topology and inference script
-- [x] Release face model trained with bilinear topology and evaluation code
-- [ ] Release pretrained model, inference script, and evaluation code for the full body model
-- [ ] Retrain face model with flame meshes obtained from more accurate FLAME-tracking.
+- [x] Release pretrained face model with FLAME topology and inference script.
+- [x] Release face model trained with bilinear topology and evaluation code.
+- [x] Retrain face model with flame meshes obtained from more accurate FLAME-tracking.
+- [ ] Allow exporting preprocessed data in NeuS2 format for mesh reconstruction.
+- [ ] Release pretrained model, inference script, and evaluation code for the full body model.
+- [ ] Update project page and video.
 
 ### Instructions
 - See [installation](docs/installation.md) to install all the required packages
@@ -23,6 +25,7 @@ To run Morphable Diffusion for novel facial expression synthesis, replace `$INPU
 ```bash
 bash generate_face.sh
 ```
+We tested the inference on a single RTX 3090 GPU, but it's also possible to run inference using GPUs with smaller memory (~10GB), e.g., RTX 2080 Ti.
 
 ### Training
 We train our models using 2 80GB NVIDIA A100 GPUs with a total batch size of 140.

@@ -10,4 +10,4 @@
 module load openmpi/4.1.4
 module load blender/3.4.1
 
-mpirun -np 8 python render_batch_mpi.py --input_dir ../../assets/thuman_smplx --output_dir /cluster/scratch/xiychen/data/thuman_2.1_preprocessed
+mpirun -np 8 python render_batch_mpi.py --input_dir /cluster/scratch/xiychen/data/thuman_2.1 --output_dir /cluster/scratch/xiychen/data/thuman_2.1_preprocessed

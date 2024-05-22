@@ -27,5 +27,5 @@ echo -e "\nDownloading Morphable Diffusion..."
 mkdir -p ckpt
 cd ckpt
 gdown 1lYm6todMDIJ8hahimzQ8v9STkda6dXxd
-gdown 1FRS45rYCO2_IrIuUoHAgZa_WBfC459X8
+gdown 1KUjoDPKtNGM5UHABwsfMLVoMr7U8nnC7
 cd ..

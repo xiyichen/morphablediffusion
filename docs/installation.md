@@ -17,4 +17,10 @@ conda activate morphable_diffusion
 pip install fvcore iopath torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113
 pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py39_cu113_pyt1110/download.html
 pip install -r requirements.txt
+
+pip install -U openmim
+mim install mmengine
+mim install "mmcv>=2.0.1" 
+mim install "mmdet>=3.1.0"
+mim install mmpose==1.3.1
 ```

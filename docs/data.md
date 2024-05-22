@@ -14,8 +14,8 @@ bash download_data.sh
 ```bash
 cd ckpt
 gdown 1Wi5GmNEDLmLYvO-jCHzT2OtCAercHOic # Pretrained SyncDreamer model
-gdown 1xJUoTcbC5m4Xj41Nrr816JNNqRgqVVVz # fitted FLAME vertices for FaceScape
 cd ../assets/
+gdown 185t69roYEuhVnRq5D33KMI7F7-pu2oG_ # fitted FLAME vertices for FaceScape
 gdown 16FdCGEvC-t8EoMZFbhk6HGllhTEVlpiZ # cleaned up SMPL-X vertices for THuman 2.1
 unzip thuman_smplx.zip
 rm thuman_smplx.zip

@@ -15,6 +15,7 @@ import PIL.Image as Image
 import torchvision.transforms as transforms
 import torchvision, pickle
 from einops import rearrange
+from pytorch3d.transforms import so3_exponential_map
 
 image_transforms = []
 image_transforms.extend([transforms.ToTensor(), transforms.Lambda(lambda x: rearrange(x * 2. - 1., 'c h w -> h w c'))])
@@ -66,6 +67,7 @@ def process_im(img):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_img',type=str, required=True)
+    parser.add_argument('--exp_img',type=str, required=True)
     parser.add_argument('--mesh', type=str, required=True)
     parser.add_argument('--cfg',type=str, default='configs/facescape.yaml')
     parser.add_argument('--ckpt',type=str, default='ckpt/facescape_flame.ckpt')
@@ -126,7 +128,14 @@ def main():
 
     verts = trimesh.load(flags.mesh, process=False).vertices
     face_vertices = torch.from_numpy(verts).float()
+    # hard-coded scale and pose to align the MICA-optimized FLAME meshes with the fitted ones for FaceScape used for training
+    face_vertices *= 1.087
+    pose = torch.tensor([1.6811e+00, -2.6845e-02, -2.8883e-02,  8.5418e-04, -3.4041e-03, 1.0564e-02]).reshape(1,-1)
+    R = so3_exponential_map(pose[:,:3])[0]
+    T = pose[0,3:]
+    face_vertices = (R@face_vertices.T).T + T.reshape(-1, 3)
     face_vertices *= 2.5
+    face_vertices = (torch.tensor([[1., 0., 0.], [0., 0., 1.], [0., -1., 0]]).float()@face_vertices.T).T
 
     min_xyz = torch.min(face_vertices, axis=0).values
     max_xyz = torch.max(face_vertices, axis=0).values
@@ -164,8 +173,9 @@ def main():
     x_sample = (torch.clamp(x_sample,max=1.0,min=-1.0) + 1) * 0.5
     x_sample = x_sample.permute(0,1,3,4,2).cpu().numpy() * 255
     x_sample = x_sample.astype(np.uint8)
-
-    output_fn = Path(flags.output_dir)/ 'out.png'
+    img_name = flags.input_img.split('/')[-1].split('.')[0]
+    exp_name = flags.exp_img.split('/')[-1].split('.')[0]
+    output_fn = Path(flags.output_dir)/ f'{img_name}_{exp_name}.png'
     n_views = np.concatenate([x_sample[:,ni] for ni in range(N)], 2)
     batch_output = np.concatenate(n_views, 0)
     imsave(output_fn, batch_output)

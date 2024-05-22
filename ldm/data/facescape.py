@@ -15,6 +15,7 @@ from einops import rearrange
 from scipy.spatial.transform import Rotation as R
 import json
 import random
+import trimesh
 
 class FaceScapeData(Dataset):
     def __init__(self, data_dir, mesh_topology, subjects, expressions, heldout_expressions, image_size=256, shuffled_expression=True):
@@ -78,6 +79,9 @@ class FaceScapeData(Dataset):
         valid_views = []
         for view in camera_dict.keys():
             if os.path.isfile(os.path.join(data_dir, f'view_{str(view).zfill(5)}', 'rgba_colorcalib.png')):
+                RT = np.array(camera_dict[view]['extrinsics'])
+                if abs(Rot.from_matrix(RT[:3,:3]).as_euler('xyz', True)[-1]) > 90:
+                    continue
                 valid_views.append(view)
         input_candidates = []
         for valid_view in valid_views:
@@ -104,6 +108,10 @@ class FaceScapeData(Dataset):
                 
                 valid_views = []
                 for view in camera_dict.keys():
+                    RT = np.array(camera_dict[view]['extrinsics'])
+                    # exclude some upside down camera views
+                    if abs(Rot.from_matrix(RT[:3,:3]).as_euler('xyz', True)[-1]) > 90:
+                        continue
                     if os.path.isfile(os.path.join(data_dir, f'view_{str(view).zfill(5)}', 'rgba_colorcalib.png')):
                         valid_views.append(view)
                 target_view_candidates = []
@@ -118,7 +126,8 @@ class FaceScapeData(Dataset):
                     face_vertices = 2.5 * torch.from_numpy(np.loadtxt(os.path.join(data_dir, 'face_vertices.npy'))).float()
                     face_vertices = (self.CAPSTUDIO_2_FACESCAPE@face_vertices.T).T
                 elif self.mesh_topology == 'flame':
-                    face_vertices = torch.from_numpy(np.loadtxt(f'./assets/facescape_flame_vertices/{int(subject_id)}_{int(expression_id)}.npy')).float()
+                    face_vertices = 2.5 * torch.from_numpy(trimesh.load(f'./assets/facescape_flame_tracking/{subject_id}/{expression_id}/mesh.obj', process=False).vertices).float()
+                    face_vertices = (self.CAPSTUDIO_2_FACESCAPE@face_vertices.T).T
                 else:
                     raise NotImplementedError(f"Mesh topology {self.mesh_topology} not supported!")
                 
@@ -192,6 +201,8 @@ class FaceScapeDataset(pl.LightningDataModule):
         if stage in ['fit']:
             heldout_expressions = ['06']
             train_subjects = [str(i).zfill(3) for i in list(range(1, 326))]
+            for i in ['122', '212']:
+                train_subjects.remove(i)
             test_subjects = ['122', '212'] + [str(i) for i in range(326, 360)]
             train_expressions = [str(i).zfill(2) for i in range(1,21)]
             for exp in heldout_expressions:
