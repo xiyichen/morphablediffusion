@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export INPUT_IMG=./demo/face/input/stylegan2.png
+export INPUT_IMG=./demo/face/input/stylegan1.png
 export TARGET_EXPRESSION_IMG=./demo/face/exp/kiss.jpg
 
 rm -rf ./third_party/MICA/demo/
@@ -28,8 +28,10 @@ python generate_face.py --input_img $INPUT_IMG \
                         --exp_img $TARGET_EXPRESSION_IMG \
                         --mesh ./third_party/metrical-tracker/output/config/mesh/00001.ply \
                         --ckpt './ckpt/facescape_flame_mv_tracking.ckpt' \
-                        --output_dir './output/' \
+                        --output_dir './output_face/' \
                         --cfg_scale 2.0 \
                         --batch_view_num 8 \
                         --seed 6033 \
-                        --sample_steps 50
+                        --sample_steps 50 \
+                        --camera_trajectory 'virtual' \
+                        --prepare_neus2_data

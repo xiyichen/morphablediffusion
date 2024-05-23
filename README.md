@@ -11,7 +11,7 @@ Morphable Diffusion: 3D-Consistent Diffusion for Single-image Avatar Creation
 - [x] Release pretrained face model with FLAME topology and inference script.
 - [x] Release face model trained with bilinear topology and evaluation code.
 - [x] Retrain face model with flame meshes obtained from more accurate FLAME-tracking.
-- [ ] Allow exporting preprocessed data in NeuS2 format for mesh reconstruction.
+- [x] Allow exporting preprocessed data in NeuS2 format for mesh reconstruction.
 - [ ] Release pretrained model, inference script, and evaluation code for the full body model.
 - [ ] Update project page and video.
 
@@ -25,7 +25,11 @@ To run Morphable Diffusion for novel facial expression synthesis, replace `$INPU
 ```bash
 bash generate_face.sh
 ```
+You could also choose between "virtual" and "real" for the `--camera_trajectory` flag to use a hemispherical virtual camera path or a similar path but with ground truth camera parameters seen during training.
 We tested the inference on a single RTX 3090 GPU, but it's also possible to run inference using GPUs with smaller memory (~10GB), e.g., RTX 2080 Ti.
+
+### Mesh Reconstruction
+During inference of the face model, we also export the preprocessed data from the generated face images in NeuS2 format, which is stored in `./output_face/neus2_data`. You could then follow the instruction of [NeuS2](https://github.com/19reborn/NeuS2) to reconstruct the mesh. We recommend training NeuS2 using `base.json` as config for 5000 steps.
 
 ### Training
 We train our models using 2 80GB NVIDIA A100 GPUs with a total batch size of 140.

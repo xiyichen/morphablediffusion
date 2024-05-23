@@ -6,7 +6,7 @@ import torch
 from omegaconf import OmegaConf
 from skimage.io import imsave
 import trimesh
-import cv2
+import cv2, os, json
 
 from ldm.models.diffusion.morphable_diffusion import SyncMultiviewDiffusion, SyncDDIMSampler
 from ldm.util import instantiate_from_config
@@ -16,10 +16,33 @@ import torchvision.transforms as transforms
 import torchvision, pickle
 from einops import rearrange
 from pytorch3d.transforms import so3_exponential_map
+from scipy.spatial.transform import Rotation as Rot
 
 image_transforms = []
 image_transforms.extend([transforms.ToTensor(), transforms.Lambda(lambda x: rearrange(x * 2. - 1., 'c h w -> h w c'))])
 image_transforms = torchvision.transforms.Compose(image_transforms)
+
+def generate_camera_trajectory(num_cameras=16):
+    # Constants
+    radius = 4.5
+    x_angle = -180
+    z_angle = 0
+    
+    angles = np.linspace(-90, 90, num_cameras)
+    camera_positions = []
+    rotation_matrices = []
+    
+    for y_angle in angles:
+        y_angle_rad = np.radians(y_angle)
+        
+        x_pos = radius * np.sin(y_angle_rad)
+        z_pos = radius * np.cos(y_angle_rad)
+        camera_positions.append((x_pos, 0, z_pos))
+        
+        rotation_matrix = (x_angle, y_angle, z_angle)
+        rotation_matrices.append(rotation_matrix)
+    
+    return camera_positions, rotation_matrices
 
 class BackgroundRemoval:
     def __init__(self, device='cuda'):
@@ -78,7 +101,12 @@ def main():
 
     parser.add_argument('--sampler', type=str, default='ddim')
     parser.add_argument('--sample_steps', type=int, default=50)
+    parser.add_argument('--camera_trajectory', type=str, default='virtual', choices=['real', 'virtual'])
+    parser.add_argument('--prepare_neus2_data', action='store_true')
     flags = parser.parse_args()
+    
+    img_name = flags.input_img.split('/')[-1].split('.')[0]
+    exp_name = flags.exp_img.split('/')[-1].split('.')[0]
 
     torch.random.manual_seed(flags.seed)
 
@@ -106,17 +134,63 @@ def main():
     else:
         raise NotImplementedError
     
-    with open('./assets/facescape_test_traj.pkl', 'rb') as handle:
-        camera_dict = pickle.load(handle)
+    if flags.camera_trajectory == 'real':
+        with open('./assets/facescape_test_traj.pkl', 'rb') as f:
+            camera_dict = pickle.load(f)
+    elif flags.camera_trajectory == 'virtual':
+        cameras = generate_camera_trajectory(16)
+    else:
+        raise NotImplementedError
+
+    if flags.prepare_neus2_data:
+        neus2_data_root = os.path.join(flags.output_dir, 'neus2_data', f'{img_name}_{exp_name}')
+        os.makedirs(os.path.join(neus2_data_root, 'images'), exist_ok=True)
+        d = {}
+        d['w'] = 256
+        d['h'] = 256
+        d['aabb_scale'] = 1.0
+        d['scale'] = 1.0
+        d['offset'] = [0.5,0.5,0.5]
+        d['frames'] = []
+    
     for idx in range(16):
         target_images.append(input_img)
         target_elevations.append(0)
         target_azimuths.append(0)
+        
         K = np.eye(4)
-        K[:3,:3] = np.array(camera_dict['intrinsics'][idx])
-        RT = np.array(camera_dict['extrinsics'][idx])
+        if flags.camera_trajectory == 'real':
+            K[:3,:3] = np.array(camera_dict['intrinsics'][idx])
+            RT = np.array(camera_dict['extrinsics'][idx])
+        else:
+            K[:3,:3] = np.array([[1545.23757707405, 0.0, 128.0], [0.0, 1545.23757707405, 128.0], [0.0, 0.0, 1.0]])
+            position = np.array(cameras[0][idx])
+            rotation = np.array(cameras[1][idx])
+            R = Rot.from_euler('xyz', rotation, True).as_matrix()
+            t = -R@position.reshape(3,1)
+            RT = np.zeros((3,4))
+            RT[:3,:3] = R
+            RT[:3,3] = t.reshape(3,)
+        
+        if flags.prepare_neus2_data:
+            E = np.eye(4)
+            E[:3,:4] = RT
+            c2w = np.linalg.inv(E)
+            c2w[:,1] *= -1
+            c2w[:,2] *= -1
+            d_curr = {}
+            d_curr['file_path'] = f'images/{str(idx).zfill(2)}.png'
+            d_curr['transform_matrix'] = c2w.tolist()
+            d_curr['intrinsic_matrix'] = K[:3,:3].tolist()
+            d['frames'].append(d_curr)
+        
         target_Ks.append(K)
         target_RTs.append(RT)
+    
+    if flags.prepare_neus2_data:
+        with open(os.path.join(neus2_data_root, f'transform.json'), 'w') as f:
+            json.dump(d, f, indent=4)
+    
     target_Ks = torch.tensor(target_Ks).float()
     target_RTs = torch.tensor(np.array(target_RTs)).float()
 
@@ -173,12 +247,19 @@ def main():
     x_sample = (torch.clamp(x_sample,max=1.0,min=-1.0) + 1) * 0.5
     x_sample = x_sample.permute(0,1,3,4,2).cpu().numpy() * 255
     x_sample = x_sample.astype(np.uint8)
-    img_name = flags.input_img.split('/')[-1].split('.')[0]
-    exp_name = flags.exp_img.split('/')[-1].split('.')[0]
     output_fn = Path(flags.output_dir)/ f'{img_name}_{exp_name}.png'
     n_views = np.concatenate([x_sample[:,ni] for ni in range(N)], 2)
     batch_output = np.concatenate(n_views, 0)
     imsave(output_fn, batch_output)
+    
+    if flags.prepare_neus2_data:
+        for idx in range(16):
+            img = batch_output[:, idx*256:(idx+1)*256, :]
+            alpha_channel = (~(np.all(img > 240, axis=-1))).astype(np.int8)*255
+            img_bgra = np.zeros((256,256,4))
+            img_bgra[:,:,:3] = img[:,:,::-1]
+            img_bgra[:,:,-1] = alpha_channel
+            cv2.imwrite(os.path.join(neus2_data_root, f'images/{str(idx).zfill(2)}.png'), img_bgra)
     
 if __name__=="__main__":
     main()
