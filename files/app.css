@@ -14,26 +14,24 @@
 }
 
 .list-inline {
-	list-style: none;
-	margin-left: -0.5em;
-	margin-right: -0.5em;
-	padding-left: 0;
+    list-style: none;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+    padding-left: 0;
 }
 
 .list-inline > li {
-	display: inline-block;
-	margin-left: 0.5em;
-	margin-right: 0.5em;
+    display: inline-block;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }
-
 
 .slidercontainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Default to column for mobile */
     align-items: center;
     gap: 20px;
     width: 100%;
-    max-width: 1000px;
     padding: 20px;
     box-sizing: border-box;
 }
@@ -110,8 +108,8 @@ label {
 }
 
 @media (min-width: 600px) {
-    .container {
-        flex-direction: row;
+    .slidercontainer {
+        flex-direction: row; /* Switch to row for larger screens */
         align-items: flex-start;
     }
 

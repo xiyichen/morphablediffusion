@@ -182,27 +182,9 @@
                 <h3>
                     Overview Video
                 </h3>
-                <!-- <div class="text-center">
-                    <div style="position:relative;padding-top:56.25%;">
-                        <iframe src="https://www.youtube.com/embed/keF7qHeyxJc" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-                    </div>
-                </div> -->
                 Coming Soon!
             </div>
         </div>
-<!--
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h3>
-                    The model
-                </h3>
-                
-                <p class="text-justify">
-                    Our model consists of an optimisable canonical point set (left) and a compact neural network that maps every point and its associated feature in a canonical cloud to a new location.
-                </p>
-            </div>
-        </div>
--->
     
 
         <div class="row">
@@ -340,16 +322,16 @@
                         <div>
                             <img id="identityImage" src="./stylegan_ids/stylegan1.png" alt="Identity Image" class="identity-image">
                             <input type="range" min="1" max="5" value="1" class="slider" id="identitySlider">
-                            <label for="identitySlider">Identity: <span id="identityName">stylegan1</span></label>
+                            <p>Identity: <span id="identityName">stylegan1</span></p>
                         </div>
                         <div>
                             <img id="expressionImage" src="./demo_exps/kiss.png" alt="Expression Image" class="expression-image">
                             <input type="range" min="0" max="4" value="0" class="slider" id="expressionSlider">
-                            <label for="expressionSlider">Expression: <span id="expressionName">kiss</span></label>
+                            <p>Expression: <span id="expressionName">kiss</span></p>
                         </div>
                         <div>
-                            <input type="range" min="0" max="15" value="8" class="slider" id="imageSlider">
-                            <label for="imageSlider">View</label>
+                            <input type="range" min="0" max="15" value="7" class="slider" id="imageSlider">
+                            <p>View</p>
                         </div>
                     </div>
                     <img id="displayImage" src="./results/1/kiss/7.png" alt="Image Display">
@@ -394,26 +376,6 @@
                 
             </div>
         </div>
-        
-        
-        <!-- <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h3>
-                    Citation
-                </h3>
-                <div class="form-group col-md-10 col-md-offset-1">
-                <textarea id="bibtex" class="form-control" readonly>
-                @misc{chen2024morphable,
-                      title={Morphable Diffusion: 3D-Consistent Diffusion for Single-image Avatar Creation}, 
-                      author={Xiyi Chen and Marko Mihajlovic and Shaofei Wang and Sergey Prokudin and Siyu Tang},
-                      year={2024},
-                      eprint={2401.04728},
-                      archivePrefix={arXiv},
-                      primaryClass={cs.CV}
-                }</textarea>
-                </div>
-            </div>
-        </div> -->
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
