@@ -190,21 +190,25 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
-                    Pipeline
+                    Method
                 </h3>
-            <img src="./files/architecture.jpg" class="img-responsive" alt="overview">
+            <img src="./files/pipeline.png" class="img-responsive" alt="overview">
             <br>
             <p class="text-justify">
-                <b>Our pipeline consists of 4 parts:</b>
+                <b>✨ Highlights:</b>
                 <br>
-
-                <b>A)</b> a noise feature volume is constructed by lifting and processing the 2D noise features into a 3D volume $\mathbf{G}$ which is processed by a 3D CNN $\eta_\theta$ to produce a feature grid $\mathbf{F}_G$. 
+                - Unproject 2D noise features onto 3D mesh vertices with camera parameters $P^{(1:N)} = (K^{(1:N)}, R^{(1:N)}, T^{(1:N)})$.
                 <br>
-                <b>B)</b> a morphable noise volume is constructed by attaching the 2D noise features onto mesh vertices that are processed by a SparseConvNet $f_\theta$ to output a 3DMM-aware feature volume $\mathbf{F}_V$. 
+                - Process the unprojected features by a SparseConvNet $f_\theta$ to output a 3DMM-aware feature volume $\mathbf{F}_V$, which is further interpolated to the frustum $\mathbf{F}^{(i)}$ of a target view $(i)$ that we wish to synthesize.
                 <br>
-                <b>C)</b> the resulting feature grids $\mathbf{F}_G$ and $\mathbf{F}_V$ are blended via addition. The blended noise volume is further interpolated to the frustum $\mathbf{F}^{(i)}$ of a target view $(i)$ that we wish to synthesize. 
+                - Denoising with 2D UNet akin to <a href="https://liuyuan-pal.github.io/SyncDreamer/">SyncDreamer</a> with depth-wise attention.
+            </p>
+            <p class="text-justify">
+                <b>🌟 Main Contributions:</b>
                 <br>
-                <b>D)</b> the noisy target image $\mathbf{x}_t^{(i)}$, the input image $\mathbf{y}$, and the target feature frustum are processed by a pre-trained 2D UNet akin to <a href="https://liuyuan-pal.github.io/SyncDreamer/">SyncDreamer</a> to predict the denoised image at the next iteration $\mathbf{x}_{t-1}^{(i)}$.
+                - Proposed a multi-view consistent diffusion pipeline that conditions the generative process on a <b> deformable 3D model </b> for the task of animatable human avatar creation.
+                <br>
+                - Proposed <b> a more efficient training scheme </b> that disentangles the reconstruction (guided by the input image) and the animation (guided by the underlying morphable model)
             </p>
             </div>
             
