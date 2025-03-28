@@ -12,8 +12,6 @@ Morphable Diffusion: 3D-Consistent Diffusion for Single-image Avatar Creation
 - [x] Release face model trained with bilinear topology and evaluation code.
 - [x] Retrain face model with flame meshes obtained from more accurate FLAME-tracking.
 - [x] Allow exporting preprocessed data in NeuS2 format for mesh reconstruction.
-- [ ] Release pretrained model, inference script, and evaluation code for the full body model.
-- [ ] Update project page and video.
 
 ### Instructions
 - See [installation](docs/installation.md) to install all the required packages
